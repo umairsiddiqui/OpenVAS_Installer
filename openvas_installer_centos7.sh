@@ -90,6 +90,7 @@ sudo systemctl stop openvas-scanner.service
 
 sudo cp /usr/lib/systemd/system/openvas-*.service /etc/systemd/system/
 sudo sed -i -r '/RestartSec/s/=.*/=10/' /etc/systemd/system/openvas-*.service
+sudo sed -i -r '/Restart=/s/=.*/=on-failure/' /etc/systemd/system/openvas-*.service
 
 sudo systemctl disable openvas-manager.service
 sudo systemctl disable openvas-scanner.service
