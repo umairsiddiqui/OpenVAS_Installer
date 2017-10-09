@@ -89,6 +89,8 @@ sudo systemctl stop openvas-scanner.service
 sudo openvas-nvt-sync
 
 # 
+sudo mkdir -p /etc/openvas/gnupg
+
 sudo openvassd
 
 sudo openvasmd --rebuild --progress
