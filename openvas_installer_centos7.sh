@@ -81,9 +81,14 @@ sudo sed -i -r '/MANAGER_LISTEN/s/127\.0\.0\.1/0\.0\.0\.0/' /etc/sysconfig/openv
 sudo sed -i -r '/^SELINUX=/s/enforcing/permissive/' /etc/selinux/config
 sudo setenforce 0
 
-
 sudo systemctl stop openvas-manager.service
 sudo systemctl stop openvas-scanner.service
+
+sudo cp /usr/lib/systemd/system/openvas-*.service /etc/systemd/system/
+sudo sed -i -r '/RestartSec/s/=.*/=10/' /etc/systemd/system/openvas-*.service
+
+sudo systemctl disable openvas-manager.service
+sudo systemctl disable openvas-scanner.service
 
 # Update the network vulnerability tests database 
 sudo openvas-nvt-sync
