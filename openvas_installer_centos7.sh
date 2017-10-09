@@ -77,6 +77,10 @@ sudo sed -i -r '/GSA_PORT/s/[0-9]+/9392/' /etc/sysconfig/openvas-gsa
 sudo sed -i -r '/MANAGER_LISTEN/s/^([[:space:]]*)#//' /etc/sysconfig/openvas-manager
 sudo sed -i -r '/MANAGER_LISTEN/s/127\.0\.0\.1/0\.0\.0\.0/' /etc/sysconfig/openvas-manager
 
+
+sudo sed -i -r '/SCANNER_LISTEN/s/^([[:space:]]*)#//' /etc/sysconfig/openvas-scanner
+sudo sed -i -r '/SCANNER_LISTEN/s/127\.0\.0\.1/0\.0\.0\.0/' /etc/sysconfig/openvas-scanner
+
 # selinux in permissive mode
 sudo sed -i -r '/^SELINUX=/s/enforcing/permissive/' /etc/selinux/config
 sudo setenforce 0
