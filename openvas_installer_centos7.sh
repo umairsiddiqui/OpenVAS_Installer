@@ -57,6 +57,7 @@ sudo sed -i "/nasl_no_signature_check/s/yes/no/" /etc/openvas/openvassd.conf
 sudo openvas-mkcert -q
 
 #create a client certificate for a user named "om" this stands for OpenVAS Manager.
+sudo rm -rf /tmp/openvas-mkcert-client*
 sudo openvas-mkcert-client -n om -i
 
 
