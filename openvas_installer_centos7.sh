@@ -98,19 +98,20 @@ sudo systemctl disable openvas-scanner.service
 # Update the network vulnerability tests database 
 sudo openvas-nvt-sync
 
-# 
-sudo mkdir -p /etc/openvas/gnupg
-
-sudo openvassd
-
-sudo openvasmd --rebuild --progress
-
 # sync security content automation protocol (scap) data 
 sudo openvas-scapdata-sync
 
 # sync cert data
 sudo openvas-certdata-sync
 
+# 
+sudo mkdir -p /etc/openvas/gnupg
+wget -O /tmp/OpenVAS_TI.asc http://www.openvas.org/OpenVAS_TI.asc
+sudo gpg --homedir=/etc/openvas/gnupg --import /tmp/OpenVAS_TI.asc
+
+sudo openvassd -C
+
+sudo openvasmd --rebuild --progress
 
 # create acount admin
 sudo openvasmd --create-user=admin --role=Admin
@@ -149,13 +150,10 @@ function run_cmd() {
 echo -e "Updating OpenVAS database..."
 
 run_cmd openvas-nvt-sync
-
-openvasmd --rebuild 
-
 run_cmd openvas-scapdata-sync
 run_cmd openvas-certdata-sync
 
-
+openvasmd --rebuild 
 
 systemctl restart openvas-scanner.service
 systemctl restart openvas-manager.service
@@ -177,10 +175,9 @@ fi
 
 
 # enable services
+sudo systemctl enable openvas-scanner.service
 sudo systemctl enable openvas-manager.service
 sudo systemctl enable openvas-gsa.service
-sudo systemctl enable openvas-scanner.service
-
 
 sudo systemctl start openvas-scanner.service
 sudo systemctl start openvas-manager.service
