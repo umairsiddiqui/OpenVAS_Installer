@@ -21,6 +21,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+if [ "x$(id -u)" != 'x0' ]; then
+   echo $0 requires root/sudo
+   exit 1
+fi
+
+
 sudo yum install -y epel-release
 
 sudo yum install -y openvas-manager openvas-scanner openvas-cli openvas-gsa redis.x86_64 bzip2 wget net-tools texlive-latex-bin nmap alien mingw32-nsis texlive-collection-xetex texlive-collection-latexrecommended texlive-collection-htmlxml.noarch texlive-thumbpdf-bin.noarch texlive-dvipdfm texlive-dvipdfmx texlive-pdfpages.noarch texlive-epstopdf.noarch
@@ -74,6 +80,9 @@ sudo sed -i -r '/MANAGER_LISTEN/s/127\.0\.0\.1/0\.0\.0\.0/' /etc/sysconfig/openv
 sudo sed -i -r '/^SELINUX=/s/enforcing/permissive/' /etc/selinux/config
 sudo setenforce 0
 
+
+sudo systemctl stop openvas-manager.service
+sudo systemctl stop openvas-scanner.service
 
 # Update the network vulnerability tests database 
 sudo openvas-nvt-sync
